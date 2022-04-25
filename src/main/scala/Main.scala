@@ -31,10 +31,6 @@ object Main {
     println(s"r squared adj score: \n${summary.r2adj}")
     println(s"Objective History: \n${summary.objectiveHistory.mkString(",")}")
 
-
-
     //    listingPriceModel.save("models/linear_regression_listing_price_model")
-
-
   }
 }
