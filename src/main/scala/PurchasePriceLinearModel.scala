@@ -6,8 +6,8 @@ import org.apache.spark.sql.{Dataset, Row}
 
 class PurchasePriceLinearModel {
 
-  def loadModelFromFile(filePath: String) : LinearRegression = {
-    val model = LinearRegression.load(filePath)
+  def loadModelFromFile(filePath: String) : LinearRegressionModel = {
+    val model = LinearRegressionModel.load(filePath)
     model
   }
 

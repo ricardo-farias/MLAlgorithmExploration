@@ -1,6 +1,6 @@
 import org.apache.spark.ml.feature.{Normalizer, VectorAssembler}
 
-object Main {
+object App {
 
   def main(args: Array[String]): Unit = {
     val active_df = spark_common.spark
@@ -31,6 +31,6 @@ object Main {
     println(s"r squared adj score: \n${summary.r2adj}")
     println(s"Objective History: \n${summary.objectiveHistory.mkString(",")}")
 
-    //    listingPriceModel.save("models/linear_regression_listing_price_model")
+    listingPriceModel.write.overwrite.save("models/linear_regression_listing_price_model")
   }
 }
