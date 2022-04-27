@@ -1,19 +1,18 @@
-import org.apache.spark.ml.feature.{VectorAssembler, Normalizer}
 import org.apache.spark.ml.regression.LinearRegression
 import org.apache.spark.ml.regression.LinearRegressionModel
 import org.apache.spark.sql.{Dataset, Row}
 
 
-class PurchasePriceLinearModel {
+class PriceEstimatorServiceBuilder {
 
-  def loadModelFromFile(filePath: String) : LinearRegressionModel = {
+  def loadModelFromFile(filePath: String) : PriceEstimatorService = {
     val model = LinearRegressionModel.load(filePath)
-    model
+    new PriceEstimatorService(model)
   }
 
-  def createPricingModel(df: Dataset[Row], assembler: VectorAssembler): LinearRegressionModel = {
+  def createPricingModel(df: Dataset[Row]): PriceEstimatorService = {
 
-    val outputDF = assembler.transform(df)
+    val outputDF = DataVectorizer.vectorize(df)
     val split: Array[Dataset[Row]] = outputDF.randomSplit(Array(.7, .3))
     val train = split.apply(0)
 
@@ -22,7 +21,7 @@ class PurchasePriceLinearModel {
       .setLabelCol("sold_price")
 
     val model = algo.fit(train)
-    model
+    new PriceEstimatorService(model)
   }
 
 

@@ -9,19 +9,12 @@ object App {
       .option("inferSchema", "true")
       .csv("./resources/SoldHouses.csv")
 
-    val columns: Array[String] = Array("interior_sqft", "exterior_sqft", "total_sqft", "hoa_flag", "bedrooms", "baths",
-      "driveway_flag", "garage_flag", "built_date")
-
-    val assembler = new VectorAssembler()
-      .setInputCols(columns)
-      .setOutputCol("features")
-
-    val listingModel : PurchasePriceLinearModel = new PurchasePriceLinearModel()
-    val listingPriceModel  = listingModel.createPricingModel(active_df, assembler)
+    val listingModel : PriceEstimatorServiceBuilder = new PriceEstimatorServiceBuilder()
+    val priceEstimatorService  = listingModel.createPricingModel(active_df)
+    val listingPriceModel = priceEstimatorService.getModel()
     val summary = listingPriceModel.summary
 
-    val vectorizedDF = assembler.transform(active_df)
-    val predictions = listingPriceModel.transform(vectorizedDF)
+    val predictions = priceEstimatorService.generatePurchasePrice(active_df)
     predictions.show()
 
     println("-------- Summary --------")
