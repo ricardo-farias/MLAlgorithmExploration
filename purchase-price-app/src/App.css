@@ -1,1 +1,44 @@
 
+.App-header h1 {
+  text-align: center;
+}
+
+.grid-container {
+  background-color: #549F93;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 100px;
+  border: 5px solid;
+  border-color: #244F26;
+  margin: auto;
+  width: 1000px;
+}
+
+#grid-item {
+  display: block;
+  margin: auto;
+  width: auto;
+  height: auto;
+}
+
+#content {
+  display: grid;
+}
+
+#content label{
+  text-align: center;
+  padding: 1em;
+}
+
+.result-container {
+  display: block;
+  background-color: #549F93;
+  border: 5px solid;
+  border-color: #244F26;
+  margin: auto;
+  width: 1000px;
+}
+
+#prediction-content h2{
+  text-align: center;
+}
