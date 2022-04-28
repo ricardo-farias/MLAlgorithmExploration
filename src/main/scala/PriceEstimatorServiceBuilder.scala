@@ -4,7 +4,6 @@ import org.apache.spark.sql.{Dataset, Row}
 
 
 class PriceEstimatorServiceBuilder {
-
   def loadModelFromFile(filePath: String) : PriceEstimatorService = {
     val model = LinearRegressionModel.load(filePath)
     new PriceEstimatorService(model)

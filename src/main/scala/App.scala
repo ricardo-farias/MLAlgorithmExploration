@@ -1,29 +1,33 @@
 import org.apache.spark.ml.feature.{Normalizer, VectorAssembler}
+import org.apache.spark.sql.Row
+import org.apache.spark.sql.types.{IntegerType, StructField, StructType}
 
 object App {
 
   def main(args: Array[String]): Unit = {
-    val active_df = spark_common.spark
-      .read
-      .option("header", "true")
-      .option("inferSchema", "true")
-      .csv("./resources/SoldHouses.csv")
+    val filename = "models/linear_regression_listing_price_model" // TODO: Should be a parameter
+    val spark = spark_common.spark
 
-    val listingModel : PriceEstimatorServiceBuilder = new PriceEstimatorServiceBuilder()
-    val priceEstimatorService  = listingModel.createPricingModel(active_df)
-    val listingPriceModel = priceEstimatorService.getModel()
-    val summary = listingPriceModel.summary
+    val priceEstimatorService = new PriceEstimatorServiceBuilder().loadModelFromFile(filename)
 
-    val predictions = priceEstimatorService.generatePurchasePrice(active_df)
-    predictions.show()
+    val schema: StructType = new StructType(Array(
+      StructField("interior_sqft", IntegerType),
+      StructField("exterior_sqft", IntegerType),
+      StructField("total_sqft", IntegerType),
+      StructField("hoa_flag", IntegerType),
+      StructField("bedrooms", IntegerType),
+      StructField("baths", IntegerType),
+      StructField("driveway_flag", IntegerType),
+      StructField("garage_flag", IntegerType),
+      StructField("built_date", IntegerType),
+      StructField("sold_price", IntegerType)
+    ))
 
-    println("-------- Summary --------")
-    println(s"Degrees of freedom: \n${summary.degreesOfFreedom}")
-    println(s"Explained Variance: \n${summary.explainedVariance}")
-    println(s"r squared score: \n${summary.r2}")
-    println(s"r squared adj score: \n${summary.r2adj}")
-    println(s"Objective History: \n${summary.objectiveHistory.mkString(",")}")
+    val data = List(1728,5227,6955,0,3,2,1,1,1962,189000)
+    val rdd = spark.sparkContext.parallelize(Seq(data)).map(v => Row(v: _*))
+    val df = spark.createDataFrame(rdd, schema)
 
-    listingPriceModel.write.overwrite.save("models/linear_regression_listing_price_model")
+    priceEstimatorService.generatePurchasePrice(df)
+
   }
 }
