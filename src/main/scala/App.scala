@@ -1,4 +1,3 @@
-import org.apache.spark.ml.feature.{Normalizer, VectorAssembler}
 import org.apache.spark.sql.Row
 import org.apache.spark.sql.types.{IntegerType, StructField, StructType}
 

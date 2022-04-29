@@ -3,7 +3,7 @@ import org.apache.spark.ml.regression.LinearRegressionModel
 import org.apache.spark.sql.{Dataset, Row}
 
 
-class PriceEstimatorServiceBuilder {
+class PriceEstimatorServiceBuilder() {
   def loadModelFromFile(filePath: String) : PriceEstimatorService = {
     val model = LinearRegressionModel.load(filePath)
     new PriceEstimatorService(model)
