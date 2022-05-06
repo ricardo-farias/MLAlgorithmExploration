@@ -1,3 +1,5 @@
+package PriceEstimator
+
 import org.apache.spark.ml.regression.LinearRegressionModel
 import org.apache.spark.sql.DataFrame
 

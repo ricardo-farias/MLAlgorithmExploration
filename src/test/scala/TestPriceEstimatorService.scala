@@ -1,3 +1,4 @@
+import PriceEstimator.PriceEstimatorServiceBuilder
 import org.apache.spark.sql.{DataFrame, Row}
 import org.apache.spark.sql.functions.{abs, col}
 import org.apache.spark.sql.types.{DoubleType, IntegerType, StructField, StructType}

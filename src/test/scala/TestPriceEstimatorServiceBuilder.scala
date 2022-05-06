@@ -1,3 +1,4 @@
+import PriceEstimator.PriceEstimatorServiceBuilder
 import org.scalatest.funsuite.AnyFunSuite
 
 class TestPriceEstimatorServiceBuilder extends AnyFunSuite {
