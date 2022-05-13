@@ -1,3 +1,5 @@
+package PriceEstimator
+
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.sql.DataFrame
 
